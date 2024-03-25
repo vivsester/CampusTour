@@ -1,14 +1,19 @@
 <script setup>
 /*import HelloWorld from './components/HelloWorld.vue'*/
+import backbutton from './components/backbutton.vue'
+import checkbutton from './components/checkbutton.vue'
+import layover from './components/layover.vue'
+import pin from './components/pin.vue'
+import userposition from './components/userposition.vue'
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-    </div>
-  </header>
-
   <main>
+    <backbutton/>
+    <checkbutton/>
+    <layover/>
+    <pin/>
+    <userposition/>
   </main>
 </template>
 
