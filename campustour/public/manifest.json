@@ -1,0 +1,21 @@
+{
+    "name": "Campus Tour Progressive Web App",
+    "short_name": "Campus Tour",
+    "description": "Eine Progressive Web App für eine virtuelle Campus-Tour an der DHBW Mosbach.",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#f5f5f5",
+    "icons": [
+      {
+        "src": "favicon.svg",
+        "type": "image/svg+xml",
+        "sizes": "192x192"
+      }
+    ],
+    "orientation": "any",
+    "lang": "de",
+    "dir": "ltr",
+    "scope": "/"
+  }
+  
