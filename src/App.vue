@@ -1,10 +1,10 @@
 <script setup>
-/*import HelloWorld from './components/HelloWorld.vue'*/
 import backbutton from './components/backbutton.vue'
 import checkbutton from './components/checkbutton.vue'
 import bottomsheet from './components/bottomsheet.vue'
 import pin from './components/pin.vue'
 import userposition from './components/userposition.vue'
+import maps from './components/map.vue'
 </script>
 
 <template>
@@ -14,6 +14,7 @@ import userposition from './components/userposition.vue'
     <bottomsheet/>
     <pin/>
     <userposition/>
+    <maps/>
   </main>
 </template>
 
