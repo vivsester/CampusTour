@@ -1,51 +1,37 @@
 <template>
-  <div :class="{bottomsheetopen: show}" class="bottom-sheet">
+  <div :class="{ bottomsheetopen: show }" class="bottom-sheet">
     <div class="handlebar"></div>
-    <slot></slot>
+    <div class="content">
+      <h1>Gebäudename</h1>
+      <p>Adresse</p>
+      <br>
+      <p>Fließtext links: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum</p>
+      <div class="image-container">
+        <img src="../assets/beispielbild.jpg" alt="Bild" class="image" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import Hammer from 'hammerjs';
-onMounted(() => {
-  const btsheet = document.querySelector(".bottom-sheet")
-  console.log(btsheet)
-                // instantiate Hammer.js on the element
-                let hammerInstance = new Hammer(btsheet);
-                hammerInstance.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
-                // example: listen to swipe event
-                hammerInstance.on('swipeup', (event) => {
-                    console.log('Swiped!', event);
-                    show.value = true;
-                });
 
-                hammerInstance.on('swipedown', (event) => {
-                  console.log('Down', event);
-                  show.value = false;
-                })
-
-                // more events here, like 'tap', 'pinch', etc.
-            }
-        );
 const show = ref(false);
 
-const open = () => {
-  show.value = true;
-};
+onMounted(() => {
+  const btsheet = document.querySelector(".bottom-sheet");
+  let hammerInstance = new Hammer(btsheet);
+  hammerInstance.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
 
-const close = () => {
-  show.value = false;
-};
+  hammerInstance.on('swipeup', () => {
+    show.value = true;
+  });
 
-function onSwipeUp() {
-  open();
-}
-
-function onSwipeDown() {
-  close();
-}
-
+  hammerInstance.on('swipedown', () => {
+    show.value = false;
+  });
+});
 </script>
 
 <style scoped>
@@ -57,7 +43,7 @@ function onSwipeDown() {
   right: 0;
   z-index: 99;
   background-color: white;
-  height: 50vh;
+  height: auto;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   padding: 16px;
@@ -66,7 +52,6 @@ function onSwipeDown() {
 
 .bottomsheetopen {
   bottom: 0 !important;
-  transition: 1s all;
 }
 
 .handlebar {
@@ -75,6 +60,24 @@ function onSwipeDown() {
   background-color: #000;
   border-radius: 2.5px;
   opacity: 0.1;
-  margin: 0 auto 16px auto; /* Zentriert die Handlebar horizontal */
+  margin: 0 auto 16px auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.image-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
 }
 </style>
