@@ -2,16 +2,19 @@
   <div :class="{ bottomsheetopen: show }" class="bottom-sheet">
     <div class="handlebar"></div>
     <div class="content">
-      <h1>Gebäudename</h1>
-      <p>Adresse</p>
-      <br>
-      <p>Fließtext links: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum</p>
+      <div class="text-container">
+        <h1>Gebäudename</h1>
+        <p>Adresse</p>
+        <br>
+        <p>Fließtext links: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum</p>
+      </div>
       <div class="image-container">
         <img src="../assets/beispielbild.jpg" alt="Bild" class="image" />
       </div>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -66,18 +69,37 @@ onMounted(() => {
 .content {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+}
+
+.text-container {
+  flex: 1;
+  margin: 10px; 
 }
 
 .image-container {
   flex: 1;
   display: flex;
   justify-content: flex-end;
+  margin: 10px; 
 }
 
 .image {
   max-width: 100%;
   height: auto;
   border-radius: 15px;
+}
+
+@media (min-width: 600px) {
+  .content {
+    flex-direction: row;
+  }
+
+  .text-container {
+    order: 1;
+  }
+
+  .image-container {
+    order: 2;
+  }
 }
 </style>
