@@ -2,7 +2,7 @@
 /*import HelloWorld from './components/HelloWorld.vue'*/
 import backbutton from './components/backbutton.vue'
 import checkbutton from './components/checkbutton.vue'
-import layover from './components/layover.vue'
+import bottomsheet from './components/bottomsheet.vue'
 import pin from './components/pin.vue'
 import userposition from './components/userposition.vue'
 </script>
@@ -11,7 +11,7 @@ import userposition from './components/userposition.vue'
   <main>
     <backbutton/>
     <checkbutton/>
-    <layover/>
+    <bottomsheet/>
     <pin/>
     <userposition/>
   </main>
