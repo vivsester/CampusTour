@@ -23,7 +23,7 @@ export default {
         const userLocation = L.latLng(latitude, longitude);
 
         // Add a marker for user's location
-        L.marker(userLocation).addTo(this.map).bindPopup('Deine Lokation').openPopup();
+        L.marker(userLocation).addTo(this.map).bindPopup('Deine Position').openPopup();
 
         // Center the map on user's location
         this.map.setView(userLocation, 16);
