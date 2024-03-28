@@ -2,14 +2,24 @@
   <div :class="{ bottomsheetopen: show }" class="bottom-sheet">
     <div class="handlebar"></div>
     <div class="content">
+    <!--default content-->
       <div class="text-container">
-        <h1>Gebäudename</h1>
-        <p>Adresse</p>
+        <slot name="title">
+          <h1>Schön, dass du hier bist &excl;</h1>
+        </slot>
+        <slot name="address">
+          <p>Hier findest du eine Erkärung</p>
+        </slot>
         <br>
-        <p>Fließtext links: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum</p>
+        <slot name="text">
+          <p>Bei der Campus-Tour bekommst du alle wichtigen Informationen zu den einzelnen Gebäuden und einen Überblick über wichtige Anlaufstellen der DHBW Mosbach. 
+            Außerdem begleitet dich die Campus-Tour und zeigt dir, was du wo tun kannst.Ich wünsche dir viel Spaß beim Entdecken! </p>
+        </slot>
       </div>
       <div class="image-container">
-        <img src="../assets/beispielbild.jpg" alt="Bild" class="image" />
+        <slot name="image">
+          <img src="../assets/default-content-explain.svg" alt="Storyset Illustration" class="image" />
+        </slot>
       </div>
     </div>
   </div>
