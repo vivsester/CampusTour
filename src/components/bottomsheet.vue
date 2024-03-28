@@ -20,6 +20,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import Hammer from 'hammerjs';
+import { dbread } from './dbaccess.vue';
 
 const show = ref(false);
  
@@ -42,6 +43,8 @@ const heading = ref("Schön, dass du hier bist!");
 const adress = ref("Starte von wo immer du willst");
 const text = ref("Campus-Tour nimmt dich an die Hand: Du bekommst du alle wichtigen Informationen zu den Hotspots der DHBW Mosbach der DHBW Mosbach. Viel Spaß beim Entdecken! ");
 const image = ref('../default-content-explain.svg');
+let bldn = await dbread('A-Gebaeude');
+text.value = bldn["Beschreibungstext"]
 </script>
 
 <style scoped>
