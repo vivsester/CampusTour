@@ -4,22 +4,13 @@
     <div class="content">
     <!--default content-->
       <div class="text-container">
-        <slot name="title">
-          <h1>Schön, dass du hier bist &excl;</h1>
-        </slot>
-        <slot name="address">
-          <p>Hier findest du eine Erkärung</p>
-        </slot>
+        <h1>{{ heading }}</h1>
+        <p>{{ adress }}</p>
         <br>
-        <slot name="text">
-          <p>Bei der Campus-Tour bekommst du alle wichtigen Informationen zu den einzelnen Gebäuden und einen Überblick über wichtige Anlaufstellen der DHBW Mosbach. 
-            Außerdem begleitet dich die Campus-Tour und zeigt dir, was du wo tun kannst.Ich wünsche dir viel Spaß beim Entdecken! </p>
-        </slot>
+        <p>{{ text }}</p>
       </div>
       <div class="image-container">
-        <slot name="image">
-          <img src="../assets/default-content-explain.svg" alt="Storyset Illustration" class="image" />
-        </slot>
+        <img :src="image" class="image" />
       </div>
     </div>
   </div>
@@ -31,7 +22,7 @@ import { ref, onMounted } from 'vue';
 import Hammer from 'hammerjs';
 
 const show = ref(false);
-
+ 
 onMounted(() => {
   const btsheet = document.querySelector(".bottom-sheet");
   let hammerInstance = new Hammer(btsheet);
@@ -45,18 +36,24 @@ onMounted(() => {
     show.value = false;
   });
 });
+
+//Content füllen 
+const heading = ref("Schön, dass du hier bist!"); 
+const adress = ref("Starte von wo immer du willst");
+const text = ref("Campus-Tour nimmt dich an die Hand: Du bekommst du alle wichtigen Informationen zu den Hotspots der DHBW Mosbach der DHBW Mosbach. Viel Spaß beim Entdecken! ");
+const image = ref('../default-content-explain.svg');
 </script>
 
 <style scoped>
 .bottom-sheet {
   transition: 1s all;
   position: fixed;
-  bottom: -45vh;
+  bottom: -42vh;
   left: 0;
   right: 0;
   z-index: 99;
   background-color: white;
-  height: auto;
+  height: 60vh;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   padding: 16px;
@@ -90,12 +87,13 @@ onMounted(() => {
   flex: 1;
   display: flex;
   justify-content: flex-end;
-  margin: 10px; 
+  margin: 10px;
+  align-items: center;
 }
 
 .image {
-  max-width: 100%;
-  height: auto;
+  max-width: auto;
+  height: flex;
   border-radius: 15px;
 }
 
