@@ -12,7 +12,7 @@
 .logo-container {
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   padding: 10px;
   z-index: 90;
 }
