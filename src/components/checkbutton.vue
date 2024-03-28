@@ -31,11 +31,6 @@ export default {
     return {
       buttonColor: '#D3D3D3',
       isClickable: false,
-      userLocation: null,
-      pinLocation: {
-        latitude: 49.359277,
-        longitude: 9.1522415
-      }
     };
   },
   methods: {
@@ -45,6 +40,13 @@ export default {
         // Speichere den grünen Zustand hier (z. B. in Local Storage oder Vuex Store)
       }
     },
+    // Hier kannst du deine andere Funktion implementieren, die die Farbe ändert
+    // und die `isClickable`-Eigenschaft entsprechend setzt.
+  },
+  mounted() {
+    this.getUserLocation();
+  },
+  methods: {
     getUserLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
@@ -66,13 +68,13 @@ export default {
           this.pinLocation.latitude,
           this.pinLocation.longitude
         );
-        this.buttonColor = distance <= 200 ? 'yellow' : '#D3D3D3';
-        this.isClickable = distance <= 200;
+        this.isClose = distance <= 20;
       }
+    },
+    onClick() {
+      this.isChecked = !this.isChecked;
+      this.isClose = false;
     }
-  },
-  mounted() {
-    this.getUserLocation();
   }
 };
 </script>

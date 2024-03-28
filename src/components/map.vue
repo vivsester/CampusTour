@@ -15,6 +15,24 @@ export default {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(this.map);
+
+    // Try to get user's current location
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        const userLocation = L.latLng(latitude, longitude);
+
+        // Add a marker for user's location
+        L.marker(userLocation).addTo(this.map).bindPopup('Your Location').openPopup();
+
+        // Center the map on user's location
+        this.map.setView(userLocation, 16);
+      }, (error) => {
+        console.error('Error getting user location:', error);
+      });
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
   }
 };
 </script>
