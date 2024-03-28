@@ -22,8 +22,13 @@ export default {
         const { latitude, longitude } = position.coords;
         const userLocation = L.latLng(latitude, longitude);
 
-        // Add a marker for user's location
-        L.marker(userLocation).addTo(this.map).bindPopup('Deine Lokation').openPopup();
+        // Add a blue circle marker for user's location
+        L.circleMarker(userLocation, {
+          radius: 8,
+          color: 'blue',
+          fillColor: '#3388ff',
+          fillOpacity: 1
+        }).addTo(this.map).bindPopup('Dein Standort').openPopup();
 
         // Center the map on user's location
         this.map.setView(userLocation, 16);
@@ -46,12 +51,12 @@ export default {
   min-height: 100%;
   min-width: 100%;
   display: flex;
-  margin:0;
+  margin: 0;
   position: absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
 }
 </style>
