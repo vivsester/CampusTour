@@ -7,6 +7,11 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 export default {
+  data() {
+    return {
+      userMarker: null
+    };
+  },
   mounted() {
     // Initialize the map
     this.map = L.map('leaflet-map').setView([49.35330824531996, 9.149673396841493], 16);
@@ -18,29 +23,49 @@ export default {
 
     // Try to get user's current location with high accuracy
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        const userLocation = L.latLng(latitude, longitude);
+      // Function to update user location
+      const updateUserLocation = () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const { latitude, longitude } = position.coords;
+          const userLocation = L.latLng(latitude, longitude);
 
-        // Add a blue circle marker for user's location
-        L.circleMarker(userLocation, {
-          radius: 8,
-          color: 'blue',
-          fillColor: '#3388ff',
-          fillOpacity: 1
-        }).addTo(this.map).bindPopup('Dein Standort').openPopup();
+          // Remove previous user marker if exists
+          if (this.userMarker) {
+            this.map.removeLayer(this.userMarker);
+          }
 
-        // Center the map on user's location
-        this.map.setView(userLocation, 16);
-      }, (error) => {
-        console.error('Error getting user location:', error);
-      }, {
-        enableHighAccuracy: true, // Use high accuracy
-        timeout: 10000, // Increase timeout to 10 seconds
-        maximumAge: 0 // Maximum age of a cached position
-      });
+          // Add a blue circle marker for user's location
+          this.userMarker = L.circleMarker(userLocation, {
+            radius: 8,
+            color: 'blue',
+            fillColor: '#3388ff',
+            fillOpacity: 1
+          }).addTo(this.map).bindPopup('Dein Standort').openPopup();
+
+          // Center the map on user's location
+          this.map.setView(userLocation, 16);
+        }, (error) => {
+          console.error('Error getting user location:', error);
+        }, {
+          enableHighAccuracy: true, // Use high accuracy
+          timeout: 10000, // Increase timeout to 10 seconds
+          maximumAge: 0 // Maximum age of a cached position
+        });
+      };
+
+      // Update user location initially
+      updateUserLocation();
+
+      // Update user location every 5 seconds
+      this.updateInterval = setInterval(updateUserLocation, 5000);
     } else {
       console.error('Geolocation is not supported by this browser.');
+    }
+  },
+  beforeDestroy() {
+    // Clear the interval when component is destroyed
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
     }
   }
 };
