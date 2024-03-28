@@ -2,13 +2,15 @@
   <div :class="{ bottomsheetopen: show }" class="bottom-sheet">
     <div class="handlebar"></div>
     <div class="content">
-    <!--default content-->
       <div class="text-container">
         <h1>{{ heading }}</h1>
+        <div class="button-container">
+          <checkbutton/>
+        </div>
         <p>{{ adress }}</p>
         <br>
         <p>{{ text }}</p>
-      </div>
+    </div>
       <div class="image-container">
         <img :src="image" class="image" />
       </div>
@@ -20,6 +22,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import Hammer from 'hammerjs';
+import checkbutton from './checkbutton.vue';
 
 const show = ref(false);
  
