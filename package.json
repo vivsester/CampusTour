@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "hammerjs": "^2.0.8",
+    "leaflet": "^1.9.4",
     "vue": "^3.4.21",
     "vue2-hammer": "^2.1.2"
   },
