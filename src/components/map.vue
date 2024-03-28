@@ -16,10 +16,10 @@ export default {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(this.map);
 
-    // Try to get user's current location
+    // Try to get user's current location with high accuracy
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((geolocation) => {
-        const { latitude, longitude } = geolocation.coords;
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
         const userLocation = L.latLng(latitude, longitude);
 
         // Add a marker for user's location
@@ -29,6 +29,10 @@ export default {
         this.map.setView(userLocation, 16);
       }, (error) => {
         console.error('Error getting user location:', error);
+      }, {
+        enableHighAccuracy: true, // Use high accuracy
+        timeout: 10000, // Increase timeout to 10 seconds
+        maximumAge: 0 // Maximum age of a cached position
       });
     } else {
       console.error('Geolocation is not supported by this browser.');
