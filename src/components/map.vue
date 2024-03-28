@@ -18,8 +18,8 @@ export default {
 
     // Try to get user's current location
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
+      navigator.geolocation.getCurrentPosition((geolocation) => {
+        const { latitude, longitude } = geolocation.coords;
         const userLocation = L.latLng(latitude, longitude);
 
         // Add a marker for user's location
