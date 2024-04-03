@@ -15,7 +15,7 @@ export default {
       pinLocation: {latitude: 49.359277, longitude: 9.1522415}
     };
   },
-  
+
   created() {
     this.checkProximity();
   },
@@ -30,7 +30,7 @@ export default {
         try {
           const position = await this.getCurrentPosition();
           const distance = this.calculateDistance(position.coords.latitude, position.coords.longitude, this.pinLocation.latitude, this.pinLocation.longitude);
-          this.isClickable = distance < 100; // Checking if distance is less than 100 meters
+          this.isClickable = distance < 100; 
         } catch (error) {
           console.error('Error getting current position:', error);
         }
@@ -64,21 +64,21 @@ export default {
 
 <style scoped>
 .android-check-button {
-  position: fixed; /* Fixed position */
-  bottom: 20px; /* Adjust bottom position */
-  right: 20px; /* Adjust right position */
-  width: 50px; /* Adjust button size */
-  height: 50px; /* Adjust button size */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;   
+  height: 50px; 
   background-color: transparent;
-  color: white; /* Default color for check icon */
+  color: white; 
   font-size: 24px;
-  border-radius: 50%; /* Make the button round */
-  padding: 0; /* Remove padding */
+  border-radius: 50%;
+  padding: 0; 
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  z-index: 2; /* Set z-index */
+  z-index: 2; 
   transition: background-color 0.3s, color 0.3s;
 }
 

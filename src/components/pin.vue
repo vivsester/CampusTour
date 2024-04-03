@@ -89,6 +89,6 @@ export default {
 }
 
 .pin.clicked img {
-  transform: scale(1.5); /* Scale the image 1.5 times when clicked */
+  transform: scale(1.5); 
 }
 </style>
