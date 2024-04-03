@@ -18,11 +18,15 @@ export default {
 
   created() {
     this.checkProximity();
+    // Retrieve isChecked state from localStorage on component creation
+    this.isChecked = localStorage.getItem('isChecked') === 'true';
   },
   methods: {
     toggleChecked() {
       if (this.isClickable) {
         this.isChecked = !this.isChecked;
+        // Store isChecked state in localStorage when toggled
+        localStorage.setItem('isChecked', this.isChecked);
       }
     },
     async checkProximity() {
