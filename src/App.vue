@@ -12,7 +12,9 @@ import maps from './components/map.vue'
     <logo/>
     <backbutton/>
     <checkbutton/>
-    <bottomsheet/>
+    <Suspense>
+      <bottomsheet/>
+    </Suspense>
     <pin/>
     <userposition/>
     <maps/>
