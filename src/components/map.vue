@@ -5,6 +5,8 @@
 <script>
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import markerIcon from '@/assets/pingrey.svg';
+import markerIconGreen from '@/assets/pingreen.svg';
 
 export default {
   data() {
@@ -13,8 +15,29 @@ export default {
     };
   },
   mounted() {
+    let customIcon = L.icon({
+      iconUrl: markerIcon,
+      iconSize: [32, 32], // Size of the icon
+      iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
+      popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
+    });
+    this.customIconGreen = L.icon({
+      iconUrl: markerIconGreen,
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    });
     // Initialize the map
     this.map = L.map('leaflet-map').setView([49.35330824531996, 9.149673396841493], 16);
+    this.marker = L.marker([49.35330824531996, 9.149673396841493], { icon: customIcon }).addTo(this.map);
+    this.marker.bindPopup("Beispieltext").openPopup();
+        this.marker.on('click', () => {
+      if (this.marker.getIcon() === this.customIcon) {
+        this.marker.setIcon(this.customIconGreen);
+      } else {
+        this.marker.setIcon(this.customIcon);
+      }
+    });
 
     // Add the tile layer (OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -43,7 +66,7 @@ export default {
           }).addTo(this.map).bindPopup('Dein Standort').openPopup();
 
           // Center the map on user's location
-          this.map.setView(userLocation, 16);
+          
         }, (error) => {
           console.error('Error getting user location:', error);
         }, {
@@ -51,6 +74,7 @@ export default {
           timeout: 10000, // Increase timeout to 10 seconds
           maximumAge: 0 // Maximum age of a cached position
         });
+        this.map.setView(userLocation, 16);
       };
 
       // Update user location initially
