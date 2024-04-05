@@ -10,10 +10,16 @@ import markerIconGreen from '@/assets/pingreen.svg';
 import { updateBs } from './bottomsheet.vue';
 import { dblist, dbread } from './dbaccess.vue';
 let id;
+let customIcon = L.icon({
+      iconUrl: markerIcon,
+      iconSize: [32, 32], // Size of the icon
+      iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
+      popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
+    });
 
 async function setMarker(locationId,map,markers){
   let locationData = await dbread(locationId);
-  markers[locationId] = L.marker([locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"]]).addTo(map).bindPopup(locationId).openPopup();
+  markers[locationId] = L.marker([locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"]],{icon:customIcon}).addTo(map).bindPopup(locationId).openPopup();
   console.log(`Koordinate ${locationId}`,locationData["Koordinate"]);
   markers[locationId].on('click', () => {
     updateBs(locationId);
