@@ -1,12 +1,14 @@
 <template>
   <div :class="{ bottomsheetopen: show }" class="bottom-sheet">
-    <div class="handlebar"></div>
+    <div id="handle-wrap" @click="show = !show">
+      <div class="handlebar"></div>
+    </div>
     <div class="content">
       <div class="text-container">
-        <h1>{{ heading }}</h1>
         <div class="button-container">
           <checkbutton/>
         </div>
+        <h1>{{ heading }}</h1>
         <p>{{ adress }}</p>
         <br>
         <p>{{ text }}</p>
@@ -18,15 +20,10 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref, onMounted } from 'vue';
 import Hammer from 'hammerjs';
-import checkbutton from './checkbutton.vue';
-import { dbread } from './dbaccess.vue';
-
 const show = ref(false);
- 
 onMounted(() => {
   const btsheet = document.querySelector(".bottom-sheet");
   let hammerInstance = new Hammer(btsheet);
@@ -40,43 +37,67 @@ onMounted(() => {
     show.value = false;
   });
 });
+</script>
+<script>
+import { ref } from 'vue';
+import checkbutton from './checkbutton.vue';
+import { dbread } from './dbaccess.vue';
 
-//Content füllen 
 const heading = ref("Schön, dass du hier bist!"); 
 const adress = ref("Starte von wo immer du willst");
 const text = ref("Campus-Tour nimmt dich an die Hand: Du bekommst du alle wichtigen Informationen zu den Hotspots der DHBW Mosbach der DHBW Mosbach. Viel Spaß beim Entdecken! ");
 const image = ref('../default-content-explain.svg');
-let bldn = await dbread('A-Gebaeude');
-text.value = bldn["Beschreibungstext"]
+
+export async function updateBs(dbKey){
+  let newDataset = await dbread(dbKey);
+  if(newDataset != "No such document!"){
+    heading.value = newDataset["Titel"];
+    adress.value = `${newDataset["Straße"]} ${newDataset["Hausnummer"]}`;
+    text.value = newDataset["Beschreibung"];
+  }else{
+    heading.value = "LALALA FEHLER!!! LALALA";
+    adress.value = "Antwortstraße 42, 404 errortown";
+    text.value = "Leider ging da was schief.";
+  }
+  //TODO image.value = [];
+}
 </script>
 
 <style scoped>
 .bottom-sheet {
   transition: 1s all;
   position: fixed;
-  bottom: -42vh;
+  bottom: calc(130px - 100vh);
   left: 0;
   right: 0;
   z-index: 99;
   background-color: white;
-  height: 60vh;
+  height: 100vh;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   padding: 16px;
+  padding-top: 0;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .bottomsheetopen {
   bottom: 0 !important;
 }
-
+#handle-wrap{
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin: 0 -16px;
+  box-sizing: border-box;
+  width:calc(100% + 32px);
+  border-bottom: 1px solid #eee;
+}
 .handlebar {
   width: 35px;
   height: 5px;
   background-color: #000;
   border-radius: 2.5px;
   opacity: 0.1;
-  margin: 0 auto 16px auto;
+  margin: 0 auto;
 }
 
 .content {
