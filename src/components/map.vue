@@ -7,6 +7,29 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIcon from '@/assets/pingrey.svg';
 import markerIconGreen from '@/assets/pingreen.svg';
+import { updateBs } from './bottomsheet.vue';
+import { dblist, dbread } from './dbaccess.vue';
+let id;
+let customIcon = L.icon({
+      iconUrl: markerIcon,
+      iconSize: [32, 32], // Size of the icon
+      iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
+      popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
+    });
+
+async function setMarker(locationId,map,markers){
+  let locationData = await dbread(locationId);
+  markers[locationId] = L.marker([locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"]],{icon:customIcon}).addTo(map).bindPopup(locationId).openPopup();
+  console.log(`Koordinate ${locationId}`,locationData["Koordinate"]);
+  markers[locationId].on('click', () => {
+    updateBs(locationId);
+    /*if (markers[locationId].getIcon() === this.customIcon) {
+      this.markers[locationId].setIcon(this.customIconGreen);
+    } else {
+      this.markers[locationId].setIcon(this.customIcon);
+    }*/
+    });
+}
 
 export default {
   data() {
@@ -15,7 +38,8 @@ export default {
     };
   },
   mounted() {
-    let customIcon = L.icon({
+    this.markers = [];
+    this.customIcon = L.icon({
       iconUrl: markerIcon,
       iconSize: [32, 32], // Size of the icon
       iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
@@ -29,16 +53,8 @@ export default {
     });
     // Initialize the map
     this.map = L.map('leaflet-map').setView([49.35330824531996, 9.149673396841493], 16);
-    this.marker = L.marker([49.35330824531996, 9.149673396841493], { icon: customIcon }).addTo(this.map);
-    this.marker.bindPopup("Beispieltext").openPopup();
-        this.marker.on('click', () => {
-      if (this.marker.getIcon() === this.customIcon) {
-        this.marker.setIcon(this.customIconGreen);
-      } else {
-        this.marker.setIcon(this.customIcon);
-      }
-    });
-
+    //setMarker("A-Gebaeude");
+    
     // Add the tile layer (OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
@@ -46,50 +62,47 @@ export default {
 
     // Try to get user's current location with high accuracy
     if ('geolocation' in navigator) {
-      // Function to update user location
-      const updateUserLocation = () => {
-        navigator.geolocation.getCurrentPosition((position) => {
+      id = navigator.geolocation.watchPosition(
+        (position) => {
           const { latitude, longitude } = position.coords;
           const userLocation = L.latLng(latitude, longitude);
-
           // Remove previous user marker if exists
           if (this.userMarker) {
             this.map.removeLayer(this.userMarker);
           }
-
           // Add a blue circle marker for user's location
-          this.userMarker = L.circleMarker(userLocation, {
-            radius: 8,
+          let accuracy = position.coords.accuracy / 2;
+          this.userMarker = L.circle(userLocation, {
+            radius: accuracy,
+            weight: 1,
             color: 'blue',
             fillColor: '#3388ff',
-            fillOpacity: 1
-          }).addTo(this.map).bindPopup('Dein Standort').openPopup();
-
-          // Center the map on user's location
-          
-        }, (error) => {
+            fillOpacity: 0.6
+          }).addTo(this.map);
+        },(error) => {
           console.error('Error getting user location:', error);
-        }, {
+        },
+        {
           enableHighAccuracy: true, // Use high accuracy
           timeout: 10000, // Increase timeout to 10 seconds
           maximumAge: 0 // Maximum age of a cached position
-        });
-        this.map.setView(userLocation, 16);
-      };
-
-      // Update user location initially
-      updateUserLocation();
-
-      // Update user location every 5 seconds
-      this.updateInterval = setInterval(updateUserLocation, 5000);
+        }
+        );/* */
+      // Function to update user location
     } else {
       console.error('Geolocation is not supported by this browser.');
     }
+    dblist().then((response)=>{
+      response.forEach((value)=>{
+        console.log(dblist, value);
+        setMarker(value,this.map,this.markers);
+      })
+    });
   },
   beforeDestroy() {
     // Clear the interval when component is destroyed
-    if (this.updateInterval) {
-      clearInterval(this.updateInterval);
+    if (id) {
+      navigator.geolocation.clearWatch(id);
     }
   }
 };
