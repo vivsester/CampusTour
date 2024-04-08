@@ -1,5 +1,4 @@
 <script setup>
-import backbutton from './components/backbutton.vue'
 import checkbutton from './components/checkbutton.vue'
 import bottomsheet from './components/bottomsheet.vue'
 import pin from './components/pin.vue'
@@ -10,13 +9,11 @@ import maps from './components/map.vue'
 <template>
   <main>
     <logo/>
-    <backbutton/>
     <checkbutton/>
     <Suspense>
       <bottomsheet/>
     </Suspense>
     <pin/>
-    <userposition/>
     <maps/>
   </main>
 </template>
