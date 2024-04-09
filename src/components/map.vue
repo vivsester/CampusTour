@@ -19,7 +19,9 @@ let customIcon = L.icon({
 
 async function setMarker(locationId,map,markers){
   let locationData = await dbread(locationId);
-  markers[locationId] = L.marker([locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"]],{icon:customIcon}).addTo(map).bindPopup(locationId).openPopup();
+  let titel = locationData["Titel"];
+  let popupContent = `${titel}`;
+  markers[locationId] = L.marker([locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"]],{icon:customIcon}).addTo(map).bindPopup(popupContent).openPopup();
   console.log(`Koordinate ${locationId}`,locationData["Koordinate"]);
   markers[locationId].on('click', () => {
     updateBs(locationId);
