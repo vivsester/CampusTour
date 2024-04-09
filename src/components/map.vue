@@ -80,18 +80,6 @@ export default {
   },
   mounted() {
     this.markers = [];
-    this.customIcon = L.icon({
-      iconUrl: markerIcon,
-      iconSize: [32, 32], // Size of the icon
-      iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
-      popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
-    });
-    this.customIconGreen = L.icon({
-      iconUrl: markerIconGreen,
-      iconSize: [32, 32],
-      iconAnchor: [16, 32],
-      popupAnchor: [0, -32]
-    });
     // Initialize the map
     this.map = L.map('leaflet-map').setView([49.35330824531996, 9.149673396841493], 16);
     //setMarker("A-Gebaeude");
