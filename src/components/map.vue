@@ -10,7 +10,7 @@ import markerIconGreen from '@/assets/pingreen.svg';
 import pinRot from '@/assets/Pin_rot.ico';
 import { updateBs } from './bottomsheet.vue';
 import { dblist, dbread } from './dbaccess.vue';
-import calculateDistance from './utils.vue';
+import { calculateDistance } from './utils.vue';
 let id;
 let customIcon = L.icon({
       iconUrl: pinRot,
@@ -45,14 +45,13 @@ async function setMarker(locationId,map,markers){
           let accuracy = position.coords.accuracy / 2;
           let distance = calculateDistance(latitude, longitude, locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"] );
         if (distance<= 20+ accuracy * 2) {
-          if (markers[locationId].getIcon() != this.customIconYellow) {
-      this.markers[locationId].setIcon(this.customIconYellow);
-    } 
-
-        }
-        else {
-      //to do
-    }
+          if (markers[locationId].getIcon() != customIconYellow) {
+            markers[locationId].setIcon(customIconYellow);
+          } 
+        } else {
+          if (markers[locationId].getIcon() != customIcon) {
+            markers[locationId].setIcon(customIcon);
+        }}
         },(error) => {
           console.error('Error getting user location:', error);
         },
