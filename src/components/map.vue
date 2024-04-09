@@ -7,7 +7,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIcon from '@/assets/pingrey.svg';
 import markerIconGreen from '@/assets/pingreen.svg';
-import pinRot from '@/assets/Pin_rot_1.ico';
+import pinRot from '@/assets/Pin_rot.ico';
 import { updateBs } from './bottomsheet.vue';
 import { dblist, dbread } from './dbaccess.vue';
 let id;
