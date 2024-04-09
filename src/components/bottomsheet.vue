@@ -117,6 +117,7 @@ export async function updateBs(dbKey){
   margin: 5%;
   top: 0;
   align-items: top;
+  text-align: center;
 
 }
 
