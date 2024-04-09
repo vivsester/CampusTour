@@ -84,6 +84,7 @@ export default {
   cursor: pointer;
   z-index: 2; 
   transition: background-color 0.3s, color 0.3s;
+  border: 2px solid rgb(13, 11, 11);
 }
 
 .green {
@@ -92,7 +93,7 @@ export default {
 }
 
 .yellow {
-  background-color: yellow;
+  background-color: rgb(230, 218, 0);
   color: white;
 }
 
