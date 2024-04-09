@@ -113,7 +113,7 @@ export async function updateBs(dbKey){
 .image-container {
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin: 5%;
   top: 0;
   align-items: top;
