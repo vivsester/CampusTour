@@ -20,17 +20,13 @@ function deg2rad(deg) {
 //local storage for checkbutton
 // {key = GebaeudeName, btnclick = Boolean, explored = Boolean}
 
-export const localStorageUtils = {
-  methods: {
-    saveTo(key, value) {
+export function saveToLS(key, value) {
       localStorage.setItem(key, JSON.stringify(value));
-    },
-    getFrom(key) {
+    }
+export function getFromLS(key) {
       const value = localStorage.getItem(key);
       return value ? JSON.parse(value) : null;
-    }
   }
-};
 
 
 </script>

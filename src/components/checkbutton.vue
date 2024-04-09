@@ -7,14 +7,14 @@
 </template>
 
 <script setup>
-import { localStorageUtils } from './utils.vue';
+import { getFromLS, saveToLS } from './utils.vue';
 import { ref } from "vue";
 
 const props = defineProps(['GebaeudeName'])
 const isChecked = ref(false)
 function btnChecked (){
-  let currentValue = localStorageUtils.getFrom( props.GebaeudeName );
-   localStorageUtils.saveTo( props.GebaeudeName, {'btnclicked':true, 'explored': currentValue['explored'] ? true : false})
+  let currentValue = getFromLS( props.GebaeudeName );
+   saveToLS( props.GebaeudeName, {'btnclicked':true, 'explored': currentValue['explored'] ? true : false})
   isChecked.value = currentValue['explored'] ? true : false
 }
 
@@ -46,14 +46,10 @@ function btnChecked (){
   color: white;
 }
 
-.yellow {
-  background-color: rgb(230, 218, 0);
-  color: white;
-}
 
-.android-check-button:not(.green):not(.yellow) {
+.android-check-button:not(.green) {
   background-color: grey;
   color: white;
-  cursor: not-allowed;
+  
 }
 </style>

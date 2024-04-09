@@ -7,7 +7,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { updateBs } from './bottomsheet.vue';
 import { dblist, dbread } from './dbaccess.vue';
-import { calculateDistance } from './utils.vue';
+import { calculateDistance, getFromLS, saveToLS } from './utils.vue';
 let id;
 let customIcon = L.icon({
       iconUrl: './Pin_rot.ico',
@@ -48,19 +48,23 @@ async function setMarker(locationId,map,markers){
          
           let accuracy = position.coords.accuracy / 2;
           let distance = calculateDistance(latitude, longitude, locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"] );
-          let currentValue = localStorageUtils.getFrom(locationId);
+          let currentValue = getFromLS(locationId);
+          if(!currentValue){
+            saveToLS(locationId, {'btnclicked':false, 'explored':false} )
+            currentValue = {'btnclicked':false, 'explored':false};
+          }
 
-          if (distance<= 40+ accuracy * 2 && currentValue['btnclicked']){
-           localStorageUtils.saveTo(locationId, {'btnclicked':false, 'explored':true })
+         if (distance<= 20+ accuracy * 2 && currentValue['btnclicked']){
+           saveToLS(locationId, {'btnclicked':false, 'explored':true })
           } else {
-            localStorageUtils.saveTo(locationId, {'btnclicked':false, 'explored': currentValue['explored'] ? true : false} )
+           saveToLS(locationId, {'btnclicked':false, 'explored': currentValue['explored'] ? true : false} )
           }
 
         if(currentValue['explored'] == true){
           if (markers[locationId].getIcon() != customIconGreen) {
             markers[locationId].setIcon(customIconGreen);
           } 
-        } else if (distance<= 40+ accuracy * 2) {
+        } else if (distance<= 20+ accuracy * 2) {
           if (markers[locationId].getIcon() != customIconYellow) {
             markers[locationId].setIcon(customIconYellow);
           } 
