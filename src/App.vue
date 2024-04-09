@@ -1,7 +1,6 @@
 <script setup>
 import checkbutton from './components/checkbutton.vue'
 import bottomsheet from './components/bottomsheet.vue'
-import pin from './components/pin.vue'
 import logo from './components/logo.vue'
 import maps from './components/map.vue'
 </script>
@@ -13,7 +12,6 @@ import maps from './components/map.vue'
     <Suspense>
       <bottomsheet/>
     </Suspense>
-    <pin/>
     <maps/>
   </main>
 </template>
