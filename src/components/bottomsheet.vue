@@ -114,9 +114,10 @@ export async function updateBs(dbKey){
   flex: 1;
   display: flex;
   justify-content: flex-end;
-  margin: 10px;
+  margin: 5%;
   top: 0;
   align-items: top;
+
 }
 
 .image {
@@ -124,6 +125,7 @@ export async function updateBs(dbKey){
   max-height: 80%;
   border-radius: 15px;
   top:0;
+  margin:0;
 }
 
 @media (min-width: 600px) {
