@@ -5,7 +5,6 @@
 <script>
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import pinRot from '@/assets/Pin_rot.ico';
 import { updateBs } from './bottomsheet.vue';
 import { dblist, dbread } from './dbaccess.vue';
 import { calculateDistance } from './utils.vue';
