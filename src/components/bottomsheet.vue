@@ -54,6 +54,7 @@ export async function updateBs(dbKey){
     heading.value = newDataset["Titel"];
     adress.value = `${newDataset["Straße"]} ${newDataset["Hausnummer"]}`;
     text.value = newDataset["Beschreibung"];
+    image.value = newDataset["BildID"];
   }else{
     heading.value = "LALALA FEHLER!!! LALALA";
     adress.value = "Antwortstraße 42, 404 errortown";
