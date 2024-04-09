@@ -35,10 +35,25 @@ async function setMarker(locationId,map,markers){
   let popupContent = `${titel}`;
   markers[locationId] = L.marker([locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"]],{icon:customIcon}).addTo(map).bindPopup(popupContent).openPopup();
   console.log(`Koordinate ${locationId}`,locationData["Koordinate"]);
+  let currentValue = getFromLS(locationId);
+  if(!currentValue){
+    saveToLS(locationId, {'btnclicked':false, 'explored':false});
+  }
+
   markers[locationId].on('click', () => {
     updateBs(locationId);
-   
     });
+
+    const PinColorIntervall =  setInterval(()=>{ 
+      let currentValue = getFromLS(locationId);
+        console.log(locationId,currentValue['explored']);
+        if(currentValue['explored']){
+          markers[locationId].setIcon(customIconGreen);
+        }
+    } ,1000);
+
+
+
     if ('geolocation' in navigator) {
     id = navigator.geolocation.watchPosition(
         (position) => {
@@ -49,17 +64,13 @@ async function setMarker(locationId,map,markers){
           let accuracy = position.coords.accuracy / 2;
           let distance = calculateDistance(latitude, longitude, locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"] );
           let currentValue = getFromLS(locationId);
-          if(!currentValue){
-            saveToLS(locationId, {'btnclicked':false, 'explored':false} )
-            currentValue = {'btnclicked':false, 'explored':false};
-          }
 
          if (distance<= 20+ accuracy * 2 && currentValue['btnclicked']){
            saveToLS(locationId, {'btnclicked':false, 'explored':true })
           } else {
            saveToLS(locationId, {'btnclicked':false, 'explored': currentValue['explored'] ? true : false} )
           }
-
+          console.log(locationId,currentValue['explored'])
         if(currentValue['explored'] == true){
           if (markers[locationId].getIcon() != customIconGreen) {
             markers[locationId].setIcon(customIconGreen);

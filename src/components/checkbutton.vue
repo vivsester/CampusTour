@@ -9,13 +9,18 @@
 <script setup>
 import { getFromLS, saveToLS } from './utils.vue';
 import { ref } from "vue";
-
 const props = defineProps(['GebaeudeName'])
 const isChecked = ref(false)
+
+if(props.GebaeudeName){
+let currentValue = getFromLS( props.GebaeudeName );
+isChecked.value = currentValue['explored'] ? true : false;
+}
+
+
 function btnChecked (){
   let currentValue = getFromLS( props.GebaeudeName );
    saveToLS( props.GebaeudeName, {'btnclicked':true, 'explored': currentValue['explored'] ? true : false})
-  isChecked.value = currentValue['explored'] ? true : false
 }
 
 </script>
