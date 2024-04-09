@@ -10,9 +10,16 @@ import markerIconGreen from '@/assets/pingreen.svg';
 import pinRot from '@/assets/Pin_rot.ico';
 import { updateBs } from './bottomsheet.vue';
 import { dblist, dbread } from './dbaccess.vue';
+import { calculateDistance } from './utils.vue';
 let id;
 let customIcon = L.icon({
       iconUrl: pinRot,
+      iconSize: [32, 32], // Size of the icon
+      iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
+      popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
+    });
+    let customIconYellow = L.icon({
+      iconUrl: markerIcon,
       iconSize: [32, 32], // Size of the icon
       iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
       popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
@@ -26,12 +33,39 @@ async function setMarker(locationId,map,markers){
   console.log(`Koordinate ${locationId}`,locationData["Koordinate"]);
   markers[locationId].on('click', () => {
     updateBs(locationId);
-    /*if (markers[locationId].getIcon() === this.customIcon) {
-      this.markers[locationId].setIcon(this.customIconGreen);
-    } else {
-      this.markers[locationId].setIcon(this.customIcon);
-    }*/
+   
     });
+    if ('geolocation' in navigator) {
+    id = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const userLocation = L.latLng(latitude, longitude);
+          // Remove previous user marker if exists
+         
+          let accuracy = position.coords.accuracy / 2;
+          let distance = calculateDistance(latitude, longitude, locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"] );
+        if (distance<= 20+ accuracy * 2) {
+          if (markers[locationId].getIcon() != customIconYellow) {
+            markers[locationId].setIcon(customIconYellow);
+          } 
+        } else {
+          if (markers[locationId].getIcon() != customIcon) {
+            markers[locationId].setIcon(customIcon);
+        }}
+        },(error) => {
+          console.error('Error getting user location:', error);
+        },
+        {
+          enableHighAccuracy: true, // Use high accuracy
+          timeout: 10000, // Increase timeout to 10 seconds
+          maximumAge: 0 // Maximum age of a cached position
+        }
+        );/* */
+      // Function to update user location
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+
 }
 
 export default {
