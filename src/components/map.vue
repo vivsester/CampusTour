@@ -7,12 +7,13 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIcon from '@/assets/pingrey.svg';
 import markerIconGreen from '@/assets/pingreen.svg';
+import pinRot from '@/assets/Pin_rot.ico';
 import { updateBs } from './bottomsheet.vue';
 import { dblist, dbread } from './dbaccess.vue';
 import calculateDistance from './utils.vue';
 let id;
 let customIcon = L.icon({
-      iconUrl: markerIcon,
+      iconUrl: pinRot,
       iconSize: [32, 32], // Size of the icon
       iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
       popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
@@ -26,7 +27,9 @@ let customIcon = L.icon({
 
 async function setMarker(locationId,map,markers){
   let locationData = await dbread(locationId);
-  markers[locationId] = L.marker([locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"]],{icon:customIcon}).addTo(map).bindPopup(locationId).openPopup();
+  let titel = locationData["Titel"];
+  let popupContent = `${titel}`;
+  markers[locationId] = L.marker([locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"]],{icon:customIcon}).addTo(map).bindPopup(popupContent).openPopup();
   console.log(`Koordinate ${locationId}`,locationData["Koordinate"]);
   markers[locationId].on('click', () => {
     updateBs(locationId);

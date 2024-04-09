@@ -16,6 +16,9 @@
     "orientation": "any",
     "lang": "de",
     "dir": "ltr",
-    "scope": "/"
+    "scope": "/",
+    "serviceworker": {
+      "src": "serviceworker.js"
+    }
   }
   
