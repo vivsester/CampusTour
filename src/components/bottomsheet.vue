@@ -136,6 +136,7 @@ export async function updateBs(dbKey){
 @media (min-width: 600px) {
   .content {
     flex-direction: row;
+    overflow-y: scroll;
   }
 
   .text-container {
