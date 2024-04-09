@@ -116,13 +116,15 @@ export async function updateBs(dbKey){
   display: flex;
   justify-content: flex-end;
   margin: 10px;
-  align-items: center;
+  top: 0;
+  align-items: top;
 }
 
 .image {
-  max-width: auto;
-  height: flex;
+  max-width: 80%;
+  max-height: 80%;
   border-radius: 15px;
+  top:0;
 }
 
 @media (min-width: 600px) {
