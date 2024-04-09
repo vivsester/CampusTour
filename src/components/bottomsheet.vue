@@ -60,7 +60,6 @@ export async function updateBs(dbKey){
     adress.value = "Antwortstraße 42, 404 errortown";
     text.value = "Leider ging da was schief.";
   }
-  //TODO image.value = [];
 }
 </script>
 

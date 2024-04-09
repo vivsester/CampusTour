@@ -80,26 +80,19 @@ export default {
   },
   mounted() {
     this.markers = [];
-    // Initialize the map
     this.map = L.map('leaflet-map').setView([49.35330824531996, 9.149673396841493], 16);
-    //setMarker("A-Gebaeude");
-    
-    // Add the tile layer (OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(this.map);
-
-    // Try to get user's current location with high accuracy
     if ('geolocation' in navigator) {
       id = navigator.geolocation.watchPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           const userLocation = L.latLng(latitude, longitude);
-          // Remove previous user marker if exists
+
           if (this.userMarker) {
             this.map.removeLayer(this.userMarker);
           }
-          // Add a blue circle marker for user's location
           let accuracy = position.coords.accuracy / 2;
           this.userMarker = L.circle(userLocation, {
             radius: accuracy,
@@ -112,12 +105,11 @@ export default {
           console.error('Error getting user location:', error);
         },
         {
-          enableHighAccuracy: true, // Use high accuracy
-          timeout: 10000, // Increase timeout to 10 seconds
-          maximumAge: 0 // Maximum age of a cached position
+          enableHighAccuracy: true, 
+          timeout: 10000, 
+          maximumAge: 0 
         }
-        );/* */
-      // Function to update user location
+        );
     } else {
       console.error('Geolocation is not supported by this browser.');
     }
@@ -129,7 +121,6 @@ export default {
     });
   },
   beforeDestroy() {
-    // Clear the interval when component is destroyed
     if (id) {
       navigator.geolocation.clearWatch(id);
     }

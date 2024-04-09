@@ -13,10 +13,9 @@ appId: "1:693859887032:web:e3f6031813cf512485114d",
 measurementId: "G-51D4T38K7H"
 };
 
-// Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
 
-// Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
 export async function dblist(){
@@ -28,7 +27,6 @@ export async function dblist(){
     return buildings;
 }
 
-//einzelnes Dokument
     
 export async function dbread(gebaeude){
     const docRef = doc(db, "locations", gebaeude);
@@ -36,7 +34,6 @@ export async function dbread(gebaeude){
     if (docSnap.exists()) {
         return docSnap.data();
     } else {
-        // docSnap.data() will be undefined in this case
         return "No such document!";
     };
 }        
