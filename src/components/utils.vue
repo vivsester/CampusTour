@@ -15,4 +15,22 @@ export function calculateDistance(lat1, lon1, lat2, lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
+
+
+//local storage for checkbutton
+export const localStorageUtils = {
+  methods: {
+    saveToLocalStorage(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    },
+    getFromLocalStorage(key) {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : null;
+    }
+  }
+};
+
+
+
+
 </script>

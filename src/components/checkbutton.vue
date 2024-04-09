@@ -7,7 +7,9 @@
 </template>
 
 <script>
+import { localStorageUtils } from './utils.vue';
 export default {
+  mixins: [localStorageUtils],
   data() {
     return {
       isChecked: false,
