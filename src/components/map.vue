@@ -5,25 +5,30 @@
 <script>
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import markerIcon from '@/assets/pingrey.svg';
-import markerIconGreen from '@/assets/pingreen.svg';
 import pinRot from '@/assets/Pin_rot.ico';
 import { updateBs } from './bottomsheet.vue';
 import { dblist, dbread } from './dbaccess.vue';
-import calculateDistance from './utils.vue';
+import { calculateDistance } from './utils.vue';
 let id;
 let customIcon = L.icon({
-      iconUrl: pinRot,
+      iconUrl: './Pin_rot.ico',
       iconSize: [32, 32], // Size of the icon
       iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
       popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
     });
     let customIconYellow = L.icon({
-      iconUrl: markerIcon,
+      iconUrl: './Pin_gelb.ico',
       iconSize: [32, 32], // Size of the icon
       iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
       popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
     });
+    let customIconGreen = L.icon({
+      iconUrl: './Pin_gruen.ico',
+      iconSize: [32, 32], // Size of the icon
+      iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
+      popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
+    });
+
 
 async function setMarker(locationId,map,markers){
   let locationData = await dbread(locationId);
@@ -45,14 +50,13 @@ async function setMarker(locationId,map,markers){
           let accuracy = position.coords.accuracy / 2;
           let distance = calculateDistance(latitude, longitude, locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"] );
         if (distance<= 20+ accuracy * 2) {
-          if (markers[locationId].getIcon() != this.customIconYellow) {
-      this.markers[locationId].setIcon(this.customIconYellow);
-    } 
-
-        }
-        else {
-      //to do
-    }
+          if (markers[locationId].getIcon() != customIconYellow) {
+            markers[locationId].setIcon(customIconYellow);
+          } 
+        } else {
+          if (markers[locationId].getIcon() != customIcon) {
+            markers[locationId].setIcon(customIcon);
+        }}
         },(error) => {
           console.error('Error getting user location:', error);
         },
