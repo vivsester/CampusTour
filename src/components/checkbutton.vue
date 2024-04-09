@@ -1,71 +1,23 @@
 <template>
   <div class="android-check-button"
-       :class="{ 'green': isClickable && isChecked, 'yellow': isClickable && !isChecked }"
-       @click="toggleChecked">
+       :class="{ 'green':  isChecked}"
+       @click="btnChecked">
     <span>&#10003;</span>
   </div>
 </template>
 
-<script>
+<script setup>
 import { localStorageUtils } from './utils.vue';
-export default {
-  mixins: [localStorageUtils],
-  data() {
-    return {
-      isChecked: false,
-      isClickable: false,
-      pinLocation: {latitude: 49.359277, longitude: 9.1522415}
-    };
-  },
+import { ref } from "vue";
 
-  created() {
-    this.checkProximity();
-    // Retrieve isChecked state from localStorage on component creation
-    this.isChecked = localStorage.getItem('isChecked') === 'true';
-  },
-  methods: {
-    toggleChecked() {
-      if (this.isClickable) {
-        this.isChecked = !this.isChecked;
-        // Store isChecked state in localStorage when toggled
-        localStorage.setItem('isChecked', this.isChecked);
-      }
-    },
-    async checkProximity() {
-      if ('geolocation' in navigator) {
-        try {
-          const position = await this.getCurrentPosition();
-          const distance = this.calculateDistance(position.coords.latitude, position.coords.longitude, this.pinLocation.latitude, this.pinLocation.longitude);
-          this.isClickable = distance < 100; 
-        } catch (error) {
-          console.error('Error getting current position:', error);
-        }
-      } else {
-        console.error('Geolocation is not supported.');
-      }
-    },
-    getCurrentPosition() {
-      return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
-      });
-    },
-    calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371e3; // Earth's radius in meters
-      const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
-      const φ2 = lat2 * Math.PI / 180;
-      const Δφ = (lat2 - lat1) * Math.PI / 180;
-      const Δλ = (lon2 - lon1) * Math.PI / 180;
+const props = defineProps(['GebaeudeName'])
+const isChecked = ref(false)
+function btnChecked (){
+  let currentValue = localStorageUtils.getFrom( props.GebaeudeName );
+   localStorageUtils.saveTo( props.GebaeudeName, {'btnclicked':true, 'explored': currentValue['explored'] ? true : false})
+  isChecked.value = currentValue['explored'] ? true : false
+}
 
-      const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                Math.cos(φ1) * Math.cos(φ2) *
-                Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-      const distance = R * c; // Distance in meters
-      return distance;
-    }
-  }
-};
 </script>
 
 <style scoped>

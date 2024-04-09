@@ -18,6 +18,8 @@ function deg2rad(deg) {
 
 
 //local storage for checkbutton
+// {key = GebaeudeName, btnclick = Boolean, explored = Boolean}
+
 export const localStorageUtils = {
   methods: {
     saveTo(key, value) {

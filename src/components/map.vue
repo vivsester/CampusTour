@@ -48,7 +48,19 @@ async function setMarker(locationId,map,markers){
          
           let accuracy = position.coords.accuracy / 2;
           let distance = calculateDistance(latitude, longitude, locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"] );
-        if (distance<= 20+ accuracy * 2) {
+          let currentValue = localStorageUtils.getFrom(locationId);
+
+          if (distance<= 40+ accuracy * 2 && currentValue['btnclicked']){
+           localStorageUtils.saveTo(locationId, {'btnclicked':false, 'explored':true })
+          } else {
+            localStorageUtils.saveTo(locationId, {'btnclicked':false, 'explored': currentValue['explored'] ? true : false} )
+          }
+
+        if(currentValue['explored'] == true){
+          if (markers[locationId].getIcon() != customIconGreen) {
+            markers[locationId].setIcon(customIconGreen);
+          } 
+        } else if (distance<= 40+ accuracy * 2) {
           if (markers[locationId].getIcon() != customIconYellow) {
             markers[locationId].setIcon(customIconYellow);
           } 
