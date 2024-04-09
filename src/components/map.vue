@@ -7,11 +7,12 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import markerIcon from '@/assets/pingrey.svg';
 import markerIconGreen from '@/assets/pingreen.svg';
+import pinRot from '@/assets/Pin_rot_1.ico';
 import { updateBs } from './bottomsheet.vue';
 import { dblist, dbread } from './dbaccess.vue';
 let id;
 let customIcon = L.icon({
-      iconUrl: "favicon_vue.ico",
+      iconUrl: pinRot,
       iconSize: [32, 32], // Size of the icon
       iconAnchor: [16, 32], // Point of the icon which will correspond to marker's location
       popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
