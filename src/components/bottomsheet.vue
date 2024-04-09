@@ -78,10 +78,12 @@ export async function updateBs(dbKey){
   padding: 16px;
   padding-top: 0;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: scroll;
 }
 
 .bottomsheetopen {
   bottom: 0 !important;
+  overflow-y: scroll;
 }
 #handle-wrap{
   padding-top: 16px;
@@ -103,11 +105,13 @@ export async function updateBs(dbKey){
 .content {
   display: flex;
   flex-direction: column;
+  
 }
 
 .text-container {
   flex: 1;
-  margin: 10px; 
+  margin: 10px;
+   
 }
 
 .image-container {
@@ -118,7 +122,7 @@ export async function updateBs(dbKey){
   top: 0;
   align-items: top;
   text-align: center;
-
+  
 }
 
 .image {
