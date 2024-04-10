@@ -1,6 +1,6 @@
 <script>
 export function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Earthradius in km
+  const R = 6371; 
   const dLat = deg2rad(lat2 - lat1);
   const dLon = deg2rad(lon2 - lon1);
   const a =
@@ -8,8 +8,8 @@ export function calculateDistance(lat1, lon1, lat2, lon2) {
     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const d = R * c; // Distance in km
-  return d * 1000; // Convert to meters
+  const d = R * c; 
+  return d * 1000; 
 }
 
 function deg2rad(deg) {
@@ -18,19 +18,15 @@ function deg2rad(deg) {
 
 
 //local storage for checkbutton
-export const localStorageUtils = {
-  methods: {
-    saveToLocalStorage(key, value) {
+// {key = GebaeudeName, btnclick = Boolean, explored = Boolean}
+
+export function saveToLS(key, value) {
       localStorage.setItem(key, JSON.stringify(value));
-    },
-    getFromLocalStorage(key) {
+    }
+export function getFromLS(key) {
       const value = localStorage.getItem(key);
       return value ? JSON.parse(value) : null;
-    }
   }
-};
-
-
 
 
 </script>

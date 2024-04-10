@@ -6,7 +6,7 @@
     <div class="content">
       <div class="text-container">
         <div class="button-container">
-          <checkbutton/>
+          <checkbutton :GebaeudeName="aktivesGebaeude"/>
         </div>
         <h1>{{ heading }}</h1>
         <p>{{ adress }}</p>
@@ -47,19 +47,21 @@ const heading = ref("Schön, dass du hier bist!");
 const adress = ref("Starte von wo immer du willst");
 const text = ref("Campus-Tour nimmt dich an die Hand: Du bekommst du alle wichtigen Informationen zu den Hotspots der DHBW Mosbach der DHBW Mosbach. Viel Spaß beim Entdecken! ");
 const image = ref('../default-content-explain.svg');
+const aktivesGebaeude = ref("")
 
 export async function updateBs(dbKey){
+  aktivesGebaeude.value = dbKey;
   let newDataset = await dbread(dbKey);
   if(newDataset != "No such document!"){
     heading.value = newDataset["Titel"];
     adress.value = `${newDataset["Straße"]} ${newDataset["Hausnummer"]}`;
     text.value = newDataset["Beschreibung"];
+    image.value = newDataset["BildID"];
   }else{
     heading.value = "LALALA FEHLER!!! LALALA";
     adress.value = "Antwortstraße 42, 404 errortown";
     text.value = "Leider ging da was schief.";
   }
-  //TODO image.value = [];
 }
 </script>
 
@@ -78,10 +80,12 @@ export async function updateBs(dbKey){
   padding: 16px;
   padding-top: 0;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: scroll;
 }
 
 .bottomsheetopen {
   bottom: 0 !important;
+  overflow-y: scroll;
 }
 #handle-wrap{
   padding-top: 16px;
@@ -103,30 +107,38 @@ export async function updateBs(dbKey){
 .content {
   display: flex;
   flex-direction: column;
+  
 }
 
 .text-container {
   flex: 1;
-  margin: 10px; 
+  margin: 10px;
+   
 }
 
 .image-container {
   flex: 1;
   display: flex;
-  justify-content: flex-end;
-  margin: 10px;
-  align-items: center;
+  justify-content: center;
+  margin: 5%;
+  top: 0;
+  align-items: top;
+  text-align: center;
+  
 }
 
 .image {
-  max-width: auto;
-  height: flex;
+  max-width: 80%;
+  max-height: 80%;
   border-radius: 15px;
+  top:0;
+  margin:0;
 }
 
 @media (min-width: 600px) {
   .content {
     flex-direction: row;
+    overflow-y: scroll;
   }
 
   .text-container {

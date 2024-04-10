@@ -1,71 +1,35 @@
 <template>
   <div class="android-check-button"
-       :class="{ 'green': isClickable && isChecked, 'yellow': isClickable && !isChecked }"
-       @click="toggleChecked">
+       :class="{ 'green':  isChecked}"
+       @click="btnChecked">
     <span>&#10003;</span>
   </div>
 </template>
 
-<script>
-import { localStorageUtils } from './utils.vue';
-export default {
-  mixins: [localStorageUtils],
-  data() {
-    return {
-      isChecked: false,
-      isClickable: false,
-      pinLocation: {latitude: 49.359277, longitude: 9.1522415}
-    };
-  },
+<script setup>
+import { getFromLS, saveToLS } from './utils.vue';
+import { onBeforeUnmount, ref } from "vue";
+const props = defineProps(['GebaeudeName'])
+const isChecked = ref(false)
 
-  created() {
-    this.checkProximity();
-    // Retrieve isChecked state from localStorage on component creation
-    this.isChecked = localStorage.getItem('isChecked') === 'true';
-  },
-  methods: {
-    toggleChecked() {
-      if (this.isClickable) {
-        this.isChecked = !this.isChecked;
-        // Store isChecked state in localStorage when toggled
-        localStorage.setItem('isChecked', this.isChecked);
-      }
-    },
-    async checkProximity() {
-      if ('geolocation' in navigator) {
-        try {
-          const position = await this.getCurrentPosition();
-          const distance = this.calculateDistance(position.coords.latitude, position.coords.longitude, this.pinLocation.latitude, this.pinLocation.longitude);
-          this.isClickable = distance < 100; 
-        } catch (error) {
-          console.error('Error getting current position:', error);
-        }
-      } else {
-        console.error('Geolocation is not supported.');
-      }
-    },
-    getCurrentPosition() {
-      return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
-      });
-    },
-    calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371e3; // Earth's radius in meters
-      const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
-      const φ2 = lat2 * Math.PI / 180;
-      const Δφ = (lat2 - lat1) * Math.PI / 180;
-      const Δλ = (lon2 - lon1) * Math.PI / 180;
+const btnIntvl = setInterval(()=>{
+  if(props.GebaeudeName){
+  let currentValue = getFromLS( props.GebaeudeName );
+  isChecked.value = currentValue['explored'] ? true : false;
+}},1000);
+onBeforeUnmount(()=>{
+  window.clearInterval(btnIntvl);
+})
 
-      const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                Math.cos(φ1) * Math.cos(φ2) *
-                Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-      const distance = R * c; // Distance in meters
-      return distance;
-    }
+function btnChecked (){
+  let currentValue = getFromLS( props.GebaeudeName );
+  if(currentValue && currentValue['explored']){
+    saveToLS( props.GebaeudeName, {'btnclicked':true, 'explored': currentValue['explored'] ? true : false});
+  }else{
+    saveToLS( props.GebaeudeName, {'btnclicked':true, 'explored': false});
   }
-};
+  
+}
 </script>
 
 <style scoped>
@@ -94,14 +58,10 @@ export default {
   color: white;
 }
 
-.yellow {
-  background-color: rgb(230, 218, 0);
-  color: white;
-}
 
-.android-check-button:not(.green):not(.yellow) {
+.android-check-button:not(.green) {
   background-color: grey;
   color: white;
-  cursor: not-allowed;
+  
 }
 </style>
