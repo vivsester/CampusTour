@@ -10,7 +10,7 @@
     {
       "src": "AppIcon.svg",
       "type": "image/svg+xml",
-      "sizes": "200x200"
+      "sizes": "512x512"
     }
   ],
   "orientation": "any",
