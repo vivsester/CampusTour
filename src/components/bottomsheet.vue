@@ -74,6 +74,7 @@ export async function updateBs(dbKey){
   right: 0;
   z-index: 99;
   background-color: white;
+  color: #222;
   height: 100vh;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
