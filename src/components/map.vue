@@ -9,6 +9,7 @@ import { updateBs } from './bottomsheet.vue';
 import { dblist, dbread } from './dbaccess.vue';
 import { calculateDistance, getFromLS, saveToLS } from './utils.vue';
 let id;
+let PinClrIntvl = [];
 let customIcon = L.icon({
       iconUrl: './Pin_rot.ico',
       iconSize: [32, 32], // Size of the icon
@@ -33,9 +34,10 @@ async function setMarker(locationId,map,markers){
   let locationData = await dbread(locationId);
   let titel = locationData["Titel"];
   let popupContent = `${titel}`;
-  markers[locationId] = L.marker([locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"]],{icon:customIcon}).addTo(map).bindPopup(popupContent).openPopup();
-  console.log(`Koordinate ${locationId}`,locationData["Koordinate"]);
+  let accuracy;
+  let distance;
   let currentValue = getFromLS(locationId);
+  markers[locationId] = L.marker([locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"]],{icon:customIcon}).addTo(map).bindPopup(popupContent);
   if(!currentValue){
     saveToLS(locationId, {'btnclicked':false, 'explored':false});
   }
@@ -44,15 +46,18 @@ async function setMarker(locationId,map,markers){
     updateBs(locationId);
     });
 
-    const PinColorIntervall =  setInterval(()=>{ 
-      let currentValue = getFromLS(locationId);
-        console.log(locationId,currentValue['explored']);
-        if(currentValue['explored']){
-          markers[locationId].setIcon(customIconGreen);
-        }
-    } ,1000);
-
-
+  PinClrIntvl[locationId] =  setInterval(()=>{ 
+    let currentValue = getFromLS(locationId);
+    if (distance <= 20 + accuracy && currentValue['btnclicked']){
+      saveToLS(locationId, {'btnclicked':false, 'explored':true });
+      currentValue['explored'] = true
+    } else {
+      saveToLS(locationId, {'btnclicked':false, 'explored': currentValue['explored'] ? true : false} )
+    }
+      if(currentValue['explored']){
+        markers[locationId].setIcon(customIconGreen);
+      }
+  } ,2000);
 
     if ('geolocation' in navigator) {
     id = navigator.geolocation.watchPosition(
@@ -61,21 +66,20 @@ async function setMarker(locationId,map,markers){
           const userLocation = L.latLng(latitude, longitude);
           // Remove previous user marker if exists
          
-          let accuracy = position.coords.accuracy / 2;
-          let distance = calculateDistance(latitude, longitude, locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"] );
-          let currentValue = getFromLS(locationId);
+          accuracy = position.coords.accuracy;
+          distance = calculateDistance(latitude, longitude, locationData["Koordinate"]["_lat"], locationData["Koordinate"]["_long"] );
+          currentValue = getFromLS(locationId);
 
-         if (distance<= 20+ accuracy * 2 && currentValue['btnclicked']){
+         if (distance <= 20 + accuracy && currentValue['btnclicked']){
            saveToLS(locationId, {'btnclicked':false, 'explored':true })
           } else {
            saveToLS(locationId, {'btnclicked':false, 'explored': currentValue['explored'] ? true : false} )
           }
-          console.log(locationId,currentValue['explored'])
         if(currentValue['explored'] == true){
           if (markers[locationId].getIcon() != customIconGreen) {
             markers[locationId].setIcon(customIconGreen);
           } 
-        } else if (distance<= 20+ accuracy * 2) {
+        } else if (distance <= 20 + accuracy) {
           if (markers[locationId].getIcon() != customIconYellow) {
             markers[locationId].setIcon(customIconYellow);
           } 
@@ -96,7 +100,6 @@ async function setMarker(locationId,map,markers){
     } else {
       console.error('Geolocation is not supported by this browser.');
     }
-
 }
 
 export default {
@@ -150,7 +153,6 @@ export default {
     }
     dblist().then((response)=>{
       response.forEach((value)=>{
-        console.log(dblist, value);
         setMarker(value,this.map,this.markers);
       })
     });

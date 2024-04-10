@@ -8,21 +8,23 @@
 
 <script setup>
 import { getFromLS, saveToLS } from './utils.vue';
-import { ref } from "vue";
+import { onBeforeUnmount, ref } from "vue";
 const props = defineProps(['GebaeudeName'])
 const isChecked = ref(false)
 
-if(props.GebaeudeName){
-let currentValue = getFromLS( props.GebaeudeName );
-isChecked.value = currentValue['explored'] ? true : false;
-}
-
+const btnIntvl = setInterval(()=>{
+  if(props.GebaeudeName){
+  let currentValue = getFromLS( props.GebaeudeName );
+  isChecked.value = currentValue['explored'] ? true : false;
+}},1000);
+onBeforeUnmount(()=>{
+  window.clearInterval(btnIntvl);
+})
 
 function btnChecked (){
   let currentValue = getFromLS( props.GebaeudeName );
-   saveToLS( props.GebaeudeName, {'btnclicked':true, 'explored': currentValue['explored'] ? true : false})
+  saveToLS( props.GebaeudeName, {'btnclicked':true, 'explored': currentValue['explored'] ? true : false})
 }
-
 </script>
 
 <style scoped>
