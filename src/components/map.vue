@@ -8,7 +8,6 @@ import 'leaflet/dist/leaflet.css';
 import { updateBs } from './bottomsheet.vue';
 import { dblist, dbread } from './dbaccess.vue';
 import { calculateDistance, getFromLS, saveToLS } from './utils.vue';
-import { onBeforeUnmount } from 'vue';
 let id;
 let PinClrIntvl = [];
 let customIcon = L.icon({

@@ -23,7 +23,12 @@ onBeforeUnmount(()=>{
 
 function btnChecked (){
   let currentValue = getFromLS( props.GebaeudeName );
-  saveToLS( props.GebaeudeName, {'btnclicked':true, 'explored': currentValue['explored'] ? true : false})
+  if(currentValue && currentValue['explored']){
+    saveToLS( props.GebaeudeName, {'btnclicked':true, 'explored': currentValue['explored'] ? true : false});
+  }else{
+    saveToLS( props.GebaeudeName, {'btnclicked':true, 'explored': false});
+  }
+  
 }
 </script>
 
