@@ -6,7 +6,7 @@
     <div class="content">
       <div class="text-container">
         <div class="button-container">
-          <checkbutton/>
+          <checkbutton :GebaeudeName="aktivesGebaeude"/>
         </div>
         <h1>{{ heading }}</h1>
         <p>{{ adress }}</p>
@@ -47,8 +47,10 @@ const heading = ref("Schön, dass du hier bist!");
 const adress = ref("Starte von wo immer du willst");
 const text = ref("Campus-Tour nimmt dich an die Hand: Du bekommst du alle wichtigen Informationen zu den Hotspots der DHBW Mosbach der DHBW Mosbach. Viel Spaß beim Entdecken! ");
 const image = ref('../default-content-explain.svg');
+const aktivesGebaeude = ref("")
 
 export async function updateBs(dbKey){
+  aktivesGebaeude.value = dbKey;
   let newDataset = await dbread(dbKey);
   if(newDataset != "No such document!"){
     heading.value = newDataset["Titel"];
