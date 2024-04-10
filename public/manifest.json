@@ -1,24 +1,25 @@
 {
-    "name": "Campus Tour Progressive Web App",
-    "short_name": "Campus Tour",
-    "description": "Eine Progressive Web App für eine virtuelle Campus-Tour an der DHBW Mosbach.",
-    "start_url": "/index.html",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#f5f5f5",
-    "icons": [
-      {
-        "src": "AppIcon.png",
-        "type": "image/png",
-        "sizes": "67x67"
-      }
-    ],
-    "orientation": "any",
-    "lang": "de",
-    "dir": "ltr",
-    "scope": "/",
-    "serviceworker": {
-      "src": "serviceworker.js"
+  "name": "Campus Tour Progressive Web App",
+  "short_name": "Campus Tour",
+  "description": "Eine Progressive Web App für eine virtuelle Campus-Tour an der DHBW Mosbach.",
+  "start_url": "/index.html/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f5f5f5",
+  "icons": [
+    {
+      "src": "AppIcon.svg",
+      "type": "image/svg+xml",
+      "sizes": "200x200"
     }
+  ],
+  "orientation": "any",
+  "lang": "de",
+  "dir": "ltr",
+  "scope": "/",
+  "serviceworker": {
+    "src": "serviceworker.js"
   }
+}
+
   
