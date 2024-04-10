@@ -88,11 +88,7 @@ async function setMarker(locationId,map,markers){
     }}
   } ,2000);
 }
-onBeforeUnmount(()=>{
-  PinClrIntvl.forEach((item)=>{
-    window.clearInterval(item);
-  })
-});
+
 
 export default {
   data() {
@@ -154,6 +150,9 @@ export default {
     if (id) {
       navigator.geolocation.clearWatch(id);
     }
+  PinClrIntvl.forEach((item)=>{
+    window.clearInterval(item);
+  });
   }
 };
 </script>
